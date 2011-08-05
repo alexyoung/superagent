@@ -1,6 +1,7 @@
 - if (doc.ctx && !doc.ignore)
   .doc
-    h1= doc.ctx.string
+    h1
+      a(href='#')= doc.ctx.string
     .contents
       != doc.description.full
       pre#source= doc.code

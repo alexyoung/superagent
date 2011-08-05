@@ -46,12 +46,20 @@ pre#source {
   margin-top: 30px;
 }
 
+.doc h1 {
+  margin: 0;
+}
+
+.doc h1 a {
+  color: inherit;
+}
+
 .doc .contents {
   margin: 30px;
 }
 
 .doc.hide {
-  margin-top: 10px;
+  margin-top: 1px;
 }
 
 .doc.hide .contents {

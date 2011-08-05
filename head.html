@@ -8,8 +8,16 @@
     o = $;
 
     o(function(){
-      o('#toggle').click(function(){
-        o('.doc').toggleClass('hide');
+      o('#toggle').toggle(function(){
+        o('.doc').addClass('hide');
+        o(this).text('Expand All');
+      }, function(){
+        o('.doc').removeClass('hide');
+        o(this).text('Collapse All');
+      });
+
+      o('h1 a').click(function(){
+        o(this).parents('.doc').toggleClass('hide');
       });
     });
     </script>
