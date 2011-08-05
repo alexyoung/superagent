@@ -25,4 +25,20 @@
   <body>
     <h1>Super Agent</h1>
     <p>Super Agent is light-weight progressive ajax API crafted for flexibility, readability, and a low learning curve after being frustrated with many of the existing request APIs.</p>
+
+    <pre>
+request
+  .post('/api/pet')
+  .data({ name: 'Manny', species: 'cat' })
+  .set('X-API-Key', 'foobar')
+  .set('Accept', 'application/json')
+  .end(function(res){
+    if (res.ok) {
+      alert('yay got ' + JSON.stringify(res.body));
+    } else {
+      alert('Oh no! error ' + res.text);
+    }
+  });      
+    </pre>
+
     <a href='#' id='toggle'>Collapse All</a>
