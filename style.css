@@ -2,6 +2,7 @@
 body {
   padding: 50px;
   font: 14px/1.4 "Helvetica Neue", Helvetica, arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 p {
@@ -15,6 +16,7 @@ h2 {
 }
 
 pre {
+  font: 13px monaco, monospace;
   padding: 15px;
   color: #111;
   border-left: 2px solid #eee;
@@ -23,6 +25,7 @@ pre {
   opacity: .1;
   max-height: 200px;
   overflow-y: auto;
+  color: #666;
 }
 
 .doc {
@@ -30,5 +33,28 @@ pre {
 }
 
 .doc:hover pre {
-  opacity: .6;
+  opacity: 1;
 }
+
+/* scrollbar */
+
+html {
+  overflow: auto;
+}
+body {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  bottom: 5px;
+  right: 10px;
+  padding: 0 10px;
+  overflow-y: scroll;
+  overflow-x:hidden;
+}
+
+::-webkit-scrollbar{background:#eee;width:2px}
+::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:start:increment{display:none}
+::-webkit-scrollbar-track{border:1px solid rgba(255,255,255,0.3)}
+::-webkit-scrollbar-track-piece{background:transparent}
+::-webkit-scrollbar-thumb:vertical{height:30px;-webkit-transition:background-color 300ms ease-out;-moz-transition:background-color 300ms ease-out;background:rgba(199,199,199,0.8);}
+::-webkit-scrollbar-thumb:vertical:window-inactive{background:rgba(199,199,199,0.2)}
