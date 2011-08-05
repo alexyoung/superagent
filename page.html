@@ -1,11 +1,11 @@
-<div class="doc"><h2>noop()</h2><p>Noop.</p><pre id="code">var noop = function(){};</pre></div><div class="doc"><h2>getXHR</h2><p>Determine XHR.</p><pre id="code">var getXHR = 'XMLHttpRequest' in this
+<div class="doc"><h2>noop()</h2><p>Noop.</p><pre>var noop = function(){};</pre></div><div class="doc"><h2>getXHR</h2><p>Determine XHR.</p><pre>var getXHR = 'XMLHttpRequest' in this
     ? function(){ return new XMLHttpRequest }
-    : function(){ return new ActiveXObject('Microsoft.XMLHTTP') };</pre></div><div class="doc"><h2>isFunction()</h2><p>Check if <code>obj</code> is a function.</p><pre id="code">function isFunction(obj) {
+    : function(){ return new ActiveXObject('Microsoft.XMLHTTP') };</pre></div><div class="doc"><h2>isFunction()</h2><p>Check if <code>obj</code> is a function.</p><pre>function isFunction(obj) {
    return obj &amp;&amp; obj.call &amp;&amp; obj.apply;
-  }</pre></div><div class="doc"><h2>isObject()</h2><p>Check if <code>obj</code> is an object.</p><pre id="code">function isObject(obj) {
+  }</pre></div><div class="doc"><h2>isObject()</h2><p>Check if <code>obj</code> is an object.</p><pre>function isObject(obj) {
     var cons = obj.constructor;
     return cons &amp;&amp; 'Object' == cons.name;
-  }</pre></div><div class="doc"><h2>serialize()</h2><p>Serialize the given <code>obj</code>.</p><pre id="code">function serialize(obj) {
+  }</pre></div><div class="doc"><h2>serialize()</h2><p>Serialize the given <code>obj</code>.</p><pre>function serialize(obj) {
     if (!isObject(obj)) return obj;
     var pairs = [];
     for (var key in obj) {
@@ -13,7 +13,7 @@
         + '=' + encodeURIComponent(obj[key]));
     }
     return pairs.join('&amp;');
-  }</pre></div><div class="doc"><h2>exports.serializeObject</h2><p>Expose serialization method.</p><pre id="code">exports.serializeObject = serialize;</pre></div><div class="doc"><h2>parseString()</h2><p>Parse the given x-www-form-urlencoded <code>str</code>.</p><pre id="code">function parseString(str) {
+  }</pre></div><div class="doc"><h2>exports.serializeObject</h2><p>Expose serialization method.</p><pre>exports.serializeObject = serialize;</pre></div><div class="doc"><h2>parseString()</h2><p>Parse the given x-www-form-urlencoded <code>str</code>.</p><pre>function parseString(str) {
     var obj = {}
       , pairs = str.split('&amp;')
       , parts
@@ -26,10 +26,10 @@
     }
 
     return obj;
-  }</pre></div><div class="doc"><h2>exports.parseString</h2><p>Expose parser.</p><pre id="code">exports.parseString = parseString;</pre></div><div class="doc"><h2>exports.types</h2><p>Default MIME type map.</p>
+  }</pre></div><div class="doc"><h2>exports.parseString</h2><p>Expose parser.</p><pre>exports.parseString = parseString;</pre></div><div class="doc"><h2>exports.types</h2><p>Default MIME type map.</p>
 
 <pre><code>superagent.types.xml = 'application/xml';
-</code></pre><pre id="code">exports.types = {
+</code></pre><pre>exports.types = {
       html: 'text/html'
     , json: 'application/json'
     , urlencoded: 'application/x-www-form-urlencoded'
@@ -38,7 +38,7 @@
 <pre><code>superagent.serialize['application/xml'] = function(obj){
   return 'generated xml here';
 };
-</code></pre><pre id="code">exports.serialize = {
+</code></pre><pre>exports.serialize = {
        'application/x-www-form-urlencoded': serialize
      , 'application/json': JSON.stringify
    };</pre></div><div class="doc"><h2>exports.parse</h2><p>Default parsers.</p>
@@ -46,10 +46,10 @@
 <pre><code>superagent.parse['application/xml'] = function(str){
   return { object parsed from str };
 };
-</code></pre><pre id="code">exports.parse = {
+</code></pre><pre>exports.parse = {
       'application/x-www-form-urlencoded': parseString
     , 'application/json': JSON.parse
-  };</pre></div><div class="doc"><h2>parseHeader()</h2><p>Parse the given header <code>str</code> into<br />an object containing the mapped fields.</p><pre id="code">function parseHeader(str) {
+  };</pre></div><div class="doc"><h2>parseHeader()</h2><p>Parse the given header <code>str</code> into<br />an object containing the mapped fields.</p><pre>function parseHeader(str) {
     var lines = str.split(/\r?\n/)
       , fields = {}
       , index
@@ -79,27 +79,42 @@
 
 <p>Aliasing <code>superagent</code> as <code>request</code> is nice:</p>
 
-<p>request = superagent;</p>
+<pre><code> request = superagent;
+</code></pre>
 
 <p>We can use the promise-like API, or pass callbacks:</p>
 
-<p>request.get('/').end(function(res){});<br />   request.get('/', function(res){});</p>
+<pre><code> request.get('/').end(function(res){});
+ request.get('/', function(res){});
+</code></pre>
 
 <h2>Sending data can be chained</h2>
 
-<p>request<br />     .post('/user')<br />     .data({ name: 'tj' })<br />     .end(function(res){});</p>
+<pre><code> request
+   .post('/user')
+   .data({ name: 'tj' })
+   .end(function(res){});
+</code></pre>
 
 <p>Or passed to <code>.send()</code>:</p>
 
-<p>request<br />     .post('/user')<br />     .send({ name: 'tj' }, function(res){});</p>
+<pre><code> request
+   .post('/user')
+   .send({ name: 'tj' }, function(res){});
+</code></pre>
 
 <p>Or passed to <code>.post()</code>:</p>
 
-<p>request<br />     .post('/user', { name: 'tj' })<br />     .end(function(res){});</p>
+<pre><code> request
+   .post('/user', { name: 'tj' })
+   .end(function(res){});
+</code></pre>
 
 <h2>Or further reduced to a single call for simple cases</h2>
 
-<p>request<br />     .post('/user', { name: 'tj' }, function(res){});</p><pre id="code">function Response(xhr, options) {
+<pre><code> request
+   .post('/user', { name: 'tj' }, function(res){});
+</code></pre><pre>function Response(xhr, options) {
     options = options || {};
     this.xhr = xhr;
     this.text = xhr.responseText;
@@ -113,13 +128,13 @@
 <li><code>.contentType</code> the content type without params</li>
 </ul>
 
-<p>A response of "Content-Type: text/plain; charset=utf-8"<br />will provide you with a <code>.contentType</code> of "text/plain".</p><pre id="code">Response.prototype.setHeaderProperties = function(header){
+<p>A response of "Content-Type: text/plain; charset=utf-8"<br />will provide you with a <code>.contentType</code> of "text/plain".</p><pre>Response.prototype.setHeaderProperties = function(header){
     var params = (this.header['content-type'] || '').split(/ *; */);
     this.contentType = params.shift();
     this.setParams(params);
   };</pre></div><div class="doc"><h2>Response.prototype.setParams()</h2><p>Create properties from <code>params</code>.</p>
 
-<p>For example "Content-Type: text/plain; charset=utf-8"<br />would provide <code>.charset</code> "utf-8".</p><pre id="code">Response.prototype.setParams = function(params){
+<p>For example "Content-Type: text/plain; charset=utf-8"<br />would provide <code>.charset</code> "utf-8".</p><pre>Response.prototype.setParams = function(params){
     var param;
     for (var i = 0, len = params.length; i &lt; len; ++i) {
       param = params[i].split(/ *= */);
@@ -127,7 +142,7 @@
     }
   };</pre></div><div class="doc"><h2>Response.prototype.parseBody()</h2><p>Parse the given body <code>str</code>.</p>
 
-<p>Used for auto-parsing of bodies. Parsers<br />are defined on the <code>superagent.parse</code> object.</p><pre id="code">Response.prototype.parseBody = function(str){
+<p>Used for auto-parsing of bodies. Parsers<br />are defined on the <code>superagent.parse</code> object.</p><pre>Response.prototype.parseBody = function(str){
     var parse = exports.parse[this.contentType];
     return parse
       ? parse(str)
@@ -144,7 +159,7 @@
 <li>.unauthorized</li>
 <li>.notAcceptable</li>
 <li>.notFound</li>
-</ul><pre id="code">Response.prototype.setStatusProperties = function(status){
+</ul><pre>Response.prototype.setStatusProperties = function(status){
     var type = status / 100 | 0;
 
     // status / class
@@ -164,7 +179,7 @@
     this.unauthorized = 401 == status;
     this.notAcceptable = 406 == status;
     this.notFound = 404 == status;
-  };</pre></div><div class="doc"><h2>exports.Response</h2><p>Expose <code>Response</code>.</p><pre id="code">exports.Response = Response;</pre></div><div class="doc"><h2>Request()</h2><p>Initialize a new <code>Request</code> with the given <code>method</code> and <code>url</code>.</p><pre id="code">function Request(method, url) {
+  };</pre></div><div class="doc"><h2>exports.Response</h2><p>Expose <code>Response</code>.</p><pre>exports.Response = Response;</pre></div><div class="doc"><h2>Request()</h2><p>Initialize a new <code>Request</code> with the given <code>method</code> and <code>url</code>.</p><pre>function Request(method, url) {
     var self = this;
     EventEmitter.call(this);
     this.method = method;
@@ -174,56 +189,63 @@
     this.on('end', function(){
       self.callback(new Response(self.xhr));
     });
-  }</pre></div><div class="doc"><h2>Request.prototype</h2><p>Inherit from <code>EventEmitter.prototype</code>.</p><pre id="code">Request.prototype = new EventEmitter;
+  }</pre></div><div class="doc"><h2>Request.prototype</h2><p>Inherit from <code>EventEmitter.prototype</code>.</p><pre>Request.prototype = new EventEmitter;
   Request.prototype.constructor = Request;</pre></div><div class="doc"><h2>Request.prototype.set()</h2><p>Set header <code>field</code> to <code>val</code>.</p>
 
 <h2>Examples</h2>
 
-<pre><code>req.get('/')
-  .set('Accept', 'application/json')
-  .set('X-API-Key', 'foobar')
-  .end(callback);
-</code></pre><pre id="code">Request.prototype.set = function(field, val){
+<pre><code> req.get('/')
+   .set('Accept', 'application/json')
+   .set('X-API-Key', 'foobar')
+   .end(callback);
+</code></pre><pre>Request.prototype.set = function(field, val){
     this.header[field.toLowerCase()] = val;
     return this;
   };</pre></div><div class="doc"><h2>Request.prototype.type()</h2><p>Set Content-Type to <code>type</code>, mapping values from <code>exports.types</code>.</p>
 
 <h2>Examples</h2>
 
-<p>superagent.types.xml = 'application/xml';</p>
+<pre><code> superagent.types.xml = 'application/xml';
 
-<p>request.post('/')<br />     .type('xml')<br />     .data(xmlstring)<br />     .end(callback);</p>
+ request.post('/')
+   .type('xml')
+   .data(xmlstring)
+   .end(callback);
 
-<p>request.post('/')<br />     .type('application/xml')<br />     .data(xmlstring)<br />     .end(callback);</p><pre id="code">Request.prototype.type = function(type){
+ request.post('/')
+   .type('application/xml')
+   .data(xmlstring)
+   .end(callback);
+</code></pre><pre>Request.prototype.type = function(type){
     this.set('Content-Type', exports.types[type] || type);
     return this;
   };</pre></div><div class="doc"><h2>Request.prototype.data()</h2><p>Send <code>data</code>, defaulting the <code>.type()</code> to "json" when<br />an object is given.</p>
 
 <h2>Examples</h2>
 
-<pre><code>// manual json
-request.post('/user')
-  .type('json')
-  .data('{"name":"tj"})
-  .end(callback)
+<pre><code>  // manual json
+  request.post('/user')
+    .type('json')
+    .data('{"name":"tj"})
+    .end(callback)
 
-// auto json
-request.post('/user')
-  .data({ name: 'tj' })
-  .end(callback)
+  // auto json
+  request.post('/user')
+    .data({ name: 'tj' })
+    .end(callback)
 
-// manual x-www-form-urlencoded
-request.post('/user')
-  .type('urlencoded')
-  .data('name=tj')
-  .end(callback)
+  // manual x-www-form-urlencoded
+  request.post('/user')
+    .type('urlencoded')
+    .data('name=tj')
+    .end(callback)
 
-// auto x-www-form-urlencoded
-request.post('/user')
-  .type('urlencoded')
-  .data({ name: 'tj' })
-  .end(callback)
-</code></pre><pre id="code">Request.prototype.data = function(data){
+  // auto x-www-form-urlencoded
+  request.post('/user')
+    .type('urlencoded')
+    .data({ name: 'tj' })
+    .end(callback)
+</code></pre><pre>Request.prototype.data = function(data){
     this._data = data;
     if (isObject(data) &amp;&amp; !this.header['content-type']) this.type('json');
     return this;
@@ -231,18 +253,18 @@ request.post('/user')
 
 <h2>Examples</h2>
 
-<pre><code>// equivalent to .end()
-request.post('/user').send();
+<pre><code>  // equivalent to .end()
+  request.post('/user').send();
 
-// equivalent to .data(user).end()
-request.post('/user').send(user);
+  // equivalent to .data(user).end()
+  request.post('/user').send(user);
 
-// equivalent to .data(user).end(callback)
-request.post('/user').send(user, callback);
+  // equivalent to .data(user).end(callback)
+  request.post('/user').send(user, callback);
 
-// equivalent to ..end(callback)
-request.post('/user').send(callback);
-</code></pre><pre id="code">Request.prototype.send = function(data, fn){
+  // equivalent to ..end(callback)
+  request.post('/user').send(callback);
+</code></pre><pre>Request.prototype.send = function(data, fn){
     if (isFunction(data)) {
       this.end(data);
     } else if (data) {
@@ -251,7 +273,7 @@ request.post('/user').send(callback);
       this.end();
     }
     return this;
-  };</pre></div><div class="doc"><h2>Request.prototype.end()</h2><p>Initiate request, invoking callback <code>fn(res)</code><br />with an instanceof <code>Response</code>.</p><pre id="code">Request.prototype.end = function(fn){
+  };</pre></div><div class="doc"><h2>Request.prototype.end()</h2><p>Initiate request, invoking callback <code>fn(res)</code><br />with an instanceof <code>Response</code>.</p><pre>Request.prototype.end = function(fn){
     var self = this
       , xhr = this.xhr = getXHR()
       , data = this._data || null;
@@ -284,22 +306,22 @@ request.post('/user').send(callback);
     // send stuff
     xhr.send(data);
     return this;
-  };</pre></div><div class="doc"><h2>exports.Request</h2><p>Expose <code>Request</code>.</p><pre id="code">exports.Request = Request;</pre></div><div class="doc"><h2>request()</h2><p>Shortcut for <code>new Request(method, url)</code>.</p><pre id="code">function request(method, url) {
+  };</pre></div><div class="doc"><h2>exports.Request</h2><p>Expose <code>Request</code>.</p><pre>exports.Request = Request;</pre></div><div class="doc"><h2>request()</h2><p>Shortcut for <code>new Request(method, url)</code>.</p><pre>function request(method, url) {
     return new Request(method, url);
-  }</pre></div><div class="doc"><h2>request.get()</h2><p>GET <code>url</code> with optional callback <code>fn(res)</code>.</p><pre id="code">request.get = function(url, fn){
+  }</pre></div><div class="doc"><h2>request.get()</h2><p>GET <code>url</code> with optional callback <code>fn(res)</code>.</p><pre>request.get = function(url, fn){
     var req = request('GET', url);
     if (fn) req.end(fn);
     return req;
-  };</pre></div><div class="doc"><h2>request.del()</h2><p>DELETE <code>url</code> with optional callback <code>fn(res)</code>.</p><pre id="code">request.del = function(url, fn){
+  };</pre></div><div class="doc"><h2>request.del()</h2><p>DELETE <code>url</code> with optional callback <code>fn(res)</code>.</p><pre>request.del = function(url, fn){
     var req = request('DELETE', url);
     if (fn) req.end(fn);
     return req;
-  };</pre></div><div class="doc"><h2>request.post()</h2><p>POST <code>url</code> with optional <code>data</code> and callback <code>fn(res)</code>.</p><pre id="code">request.post = function(url, data, fn){
+  };</pre></div><div class="doc"><h2>request.post()</h2><p>POST <code>url</code> with optional <code>data</code> and callback <code>fn(res)</code>.</p><pre>request.post = function(url, data, fn){
     var req = request('POST', url);
     if (data) req.data(data);
     if (fn) req.end(fn);
     return req;
-  };</pre></div><div class="doc"><h2>request.put()</h2><p>PUT <code>url</code> with optional <code>data</code> and callback <code>fn(res)</code>.</p><pre id="code">request.put = function(url, data, fn){
+  };</pre></div><div class="doc"><h2>request.put()</h2><p>PUT <code>url</code> with optional <code>data</code> and callback <code>fn(res)</code>.</p><pre>request.put = function(url, data, fn){
     var req = request('PUT', url);
     if (data) req.data(data);
     if (fn) req.end(fn);
