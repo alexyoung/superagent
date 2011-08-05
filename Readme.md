@@ -1,7 +1,7 @@
 
-# superagent
+# Super Agent
 
-  Super-agent is an elegant, small, progressive Ajax request library.
+  A small, elgant, progressive Ajax request library.
 
 ## Links
 

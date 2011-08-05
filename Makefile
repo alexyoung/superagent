@@ -15,6 +15,7 @@ test:
 docs: $(SRC)
 	dox --json $^ > docs.json
 	node docs
+	cat head.html page.html foot.html > index.html
 
 clean:
 	rm -f superagent{,.min}.js
