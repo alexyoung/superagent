@@ -12,7 +12,9 @@ superagent.min.js: superagent.js
 test:
 	@node test/server
 
-docs: lib
+docs: $(SRC)
+	dox --json $^ > docs.json
+	node docs.js
 
 clean:
 	rm -f superagent{,.min}.js
