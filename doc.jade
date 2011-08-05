@@ -1,5 +1,6 @@
 - if (doc.ctx && !doc.ignore)
   .doc
-    h2= doc.ctx.string
-    != doc.description.full
-    pre= doc.code
+    h1= doc.ctx.string
+    .contents
+      != doc.description.full
+      pre#source= doc.code

@@ -162,6 +162,9 @@ var superagent = function(exports){
 
   /**
    * Default MIME type map.
+   * 
+   *     superagent.types.xml = 'application/xml';
+   * 
    */
 
   exports.types = {
@@ -172,6 +175,11 @@ var superagent = function(exports){
 
   /**
    * Default serialization map.
+   * 
+   *     superagent.serialize['application/xml'] = function(obj){
+   *       return 'generated xml here';
+   *     };
+   * 
    */
 
    exports.serialize = {
@@ -181,6 +189,11 @@ var superagent = function(exports){
 
    /**
     * Default parsers.
+    * 
+    *     superagent.parse['application/xml'] = function(str){
+    *       return { object parsed from str };
+    *     };
+    * 
     */
 
   exports.parse = {
@@ -224,6 +237,41 @@ var superagent = function(exports){
    *  - set flags (.ok, .error, etc)
    *  - parse header
    *
+   * Examples:
+   *
+   *  Aliasing `superagent` as `request` is nice:
+   *
+   *      request = superagent;
+   *
+   *  We can use the promise-like API, or pass callbacks:
+   *
+   *      request.get('/').end(function(res){});
+   *      request.get('/', function(res){});
+   *
+   *  Sending data can be chained:
+   *
+   *      request
+   *        .post('/user')
+   *        .data({ name: 'tj' })
+   *        .end(function(res){});
+   *
+   *  Or passed to `.send()`:
+   *
+   *      request
+   *        .post('/user')
+   *        .send({ name: 'tj' }, function(res){});
+   *
+   *  Or passed to `.post()`:
+   *
+   *      request
+   *        .post('/user', { name: 'tj' })
+   *        .end(function(res){});
+   *
+   * Or further reduced to a single call for simple cases:
+   *
+   *      request
+   *        .post('/user', { name: 'tj' }, function(res){});
+   *
    * @param {XMLHTTPRequest} xhr
    * @param {Object} options
    * @api private
@@ -244,6 +292,9 @@ var superagent = function(exports){
    *
    *   - `.contentType` the content type without params
    *
+   * A response of "Content-Type: text/plain; charset=utf-8"
+   * will provide you with a `.contentType` of "text/plain".
+   *
    * @param {Object} header
    * @api private
    */
@@ -258,8 +309,7 @@ var superagent = function(exports){
    * Create properties from `params`.
    *
    * For example "Content-Type: text/plain; charset=utf-8"
-   * would pass an array of `["charset=utf-8"]` to this
-   * method, in turn defining the `.charset = "utf-8"` property.
+   * would provide `.charset` "utf-8".
    *
    * @param {Array} params
    * @api private
@@ -276,6 +326,9 @@ var superagent = function(exports){
   /**
    * Parse the given body `str`.
    *
+   * Used for auto-parsing of bodies. Parsers
+   * are defined on the `superagent.parse` object.
+   *
    * @param {String} str
    * @return {Mixed}
    * @api private
@@ -290,6 +343,20 @@ var superagent = function(exports){
 
   /**
    * Set flags such as `.ok` based on `status`.
+   *
+   * For example a 2xx response will give you a `.ok` of __true__
+   * whereas 5xx will be __false__ and `.error` will be __true__. The
+   * `.clientError` and `.serverError` are also available to be more
+   * specific, and `.statusType` is the class of error ranging from 1..5
+   * sometimes useful for mapping respond colors etc.
+   *
+   * "sugar" properties are also defined for common cases. Currently providing:
+   *
+   *   - .noContent
+   *   - .badRequest
+   *   - .unauthorized
+   *   - .notAcceptable
+   *   - .notFound
    *
    * @param {Number} status
    * @api private
@@ -343,11 +410,22 @@ var superagent = function(exports){
     });
   }
 
+  /**
+   * Inherit from `EventEmitter.prototype`.
+   */
+
   Request.prototype = new EventEmitter;
   Request.prototype.constructor = Request;
 
   /**
    * Set header `field` to `val`.
+   *
+   * Examples:
+   *
+   *      req.get('/')
+   *        .set('Accept', 'application/json')
+   *        .set('X-API-Key', 'foobar')
+   *        .end(callback);
    *
    * @param {String} field
    * @param {String} val
@@ -363,6 +441,20 @@ var superagent = function(exports){
   /**
    * Set Content-Type to `type`, mapping values from `exports.types`.
    *
+   * Examples:
+   *
+   *      superagent.types.xml = 'application/xml';
+   *
+   *      request.post('/')
+   *        .type('xml')
+   *        .data(xmlstring)
+   *        .end(callback);
+   *      
+   *      request.post('/')
+   *        .type('application/xml')
+   *        .data(xmlstring)
+   *        .end(callback);
+   *
    * @param {String} type
    * @return {Request} for chaining
    * @api public
@@ -377,6 +469,31 @@ var superagent = function(exports){
    * Send `data`, defaulting the `.type()` to "json" when
    * an object is given.
    *
+   * Examples:
+   *
+   *       // manual json
+   *       request.post('/user')
+   *         .type('json')
+   *         .data('{"name":"tj"})
+   *         .end(callback)
+   *       
+   *       // auto json
+   *       request.post('/user')
+   *         .data({ name: 'tj' })
+   *         .end(callback)
+   *       
+   *       // manual x-www-form-urlencoded
+   *       request.post('/user')
+   *         .type('urlencoded')
+   *         .data('name=tj')
+   *         .end(callback)
+   *       
+   *       // auto x-www-form-urlencoded
+   *       request.post('/user')
+   *         .type('urlencoded')
+   *         .data({ name: 'tj' })
+   *         .end(callback)
+   *
    * @param {String|Object} data
    * @return {Request} for chaining
    * @api public
@@ -389,7 +506,21 @@ var superagent = function(exports){
   };
 
   /**
-   * Send `.data()` and `.end()` with callback `fn`.
+   * Send `.data()` and `.end()` with optional callback `fn`.
+   *
+   * Examples:
+   *
+   *       // equivalent to .end()
+   *       request.post('/user').send();
+   *       
+   *       // equivalent to .data(user).end()
+   *       request.post('/user').send(user);
+   *       
+   *       // equivalent to .data(user).end(callback)
+   *       request.post('/user').send(user, callback);
+   *       
+   *       // equivalent to ..end(callback)
+   *       request.post('/user').send(callback);
    *
    * @param {Object|String} data
    * @param {Function} fn
@@ -398,11 +529,14 @@ var superagent = function(exports){
    */
 
   Request.prototype.send = function(data, fn){
-    switch (arguments.length) {
-      case 2: return this.data(data).end(fn);
-      case 1: return this.end(data);
-      default: return this.end(noop);
+    if (isFunction(data)) {
+      this.end(data);
+    } else if (data) {
+      this.data(data).end(fn);
+    } else {
+      this.end();
     }
+    return this;
   };
 
   /**
@@ -420,7 +554,7 @@ var superagent = function(exports){
       , data = this._data || null;
 
     // store callback
-    this.callback = fn;
+    this.callback = fn || noop;
 
     // initiate request
     xhr.open(this.method, this.url, true);
