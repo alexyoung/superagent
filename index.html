@@ -41,7 +41,7 @@ request
   });      
     </pre>
 
-    <a href='#' id='toggle'>Collapse All</a><div class="doc"><h1><a href="#">noop()</a></h1><div class="contents"><p>Noop.</p><pre id="source">var noop = function(){};</pre></div></div><div class="doc"><h1><a href="#">getXHR</a></h1><div class="contents"><p>Determine XHR.</p><pre id="source">var getXHR = 'XMLHttpRequest' in this
+    <a href='#' id='toggle'>Collapse All</a><div class="doc"><h1><a href="#">exports.version</a></h1><div class="contents"><p>Library version.</p><pre id="source">exports.version = '0.0.1';</pre></div></div><div class="doc"><h1><a href="#">noop()</a></h1><div class="contents"><p>Noop.</p><pre id="source">var noop = function(){};</pre></div></div><div class="doc"><h1><a href="#">getXHR</a></h1><div class="contents"><p>Determine XHR.</p><pre id="source">var getXHR = 'XMLHttpRequest' in this
     ? function(){ return new XMLHttpRequest }
     : function(){ return new ActiveXObject('Microsoft.XMLHTTP') };</pre></div></div><div class="doc"><h1><a href="#">isFunction()</a></h1><div class="contents"><p>Check if <code>obj</code> is a function.</p><pre id="source">function isFunction(obj) {
    return obj &amp;&amp; obj.call &amp;&amp; obj.apply;
@@ -172,6 +172,7 @@ request
 </ul>
 
 <p>A response of "Content-Type: text/plain; charset=utf-8"<br />will provide you with a <code>.contentType</code> of "text/plain".</p><pre id="source">Response.prototype.setHeaderProperties = function(header){
+    // TODO: moar!
     var params = (this.header['content-type'] || '').split(/ *; */);
     this.contentType = params.shift();
     this.setParams(params);
