@@ -9,6 +9,16 @@ p {
   width: 40%;
 }
 
+a {
+  text-decoration: none;
+  color: #DB2C09;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #F36042;
+}
+
 h1 {
   font-size: 20px;
   border-left: 10px solid #eee;
@@ -28,9 +38,6 @@ pre {
 
 pre#source {
   border-left: 2px solid #eee;
-  -webkit-transition: opacity 300ms ease-out;
-  -moz-transition: opacity 300ms ease-out;
-  opacity: .1;
   max-height: 200px;
   overflow-y: auto;
 }
@@ -43,8 +50,18 @@ pre#source {
   margin: 30px;
 }
 
-.doc:hover pre#source {
-  opacity: 1;
+.doc.hide {
+  margin-top: 10px;
+}
+
+.doc.hide .contents {
+  display: none;
+}
+
+#toggle {
+  position: fixed;
+  bottom: 15px;
+  right: 40px;
 }
 
 /* scrollbar */

@@ -2,17 +2,28 @@
 <html>
   <head>
     <title>Super Agent - small, elegant, progressive ajax api</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
+    <script src='jquery.js'></script>
+    <script>
+    o = $;
+
+    o(function(){
+      o('#toggle').click(function(){
+        o('.doc').toggleClass('hide');
+      });
+    });
+    </script>
   </head>
   <body>
     <h1>Super Agent</h1>
-    <p>Super Agent is light-weight progressive ajax API crafted for flexibility, readability, and a low learning curve after being frustrated with many of the existing request APIs.</p><div class="doc"><h1>noop()</h1><div class="contents"><p>Noop.</p><pre id="source">var noop = function(){};</pre></div></div><div class="doc"><h1>getXHR</h1><div class="contents"><p>Determine XHR.</p><pre id="source">var getXHR = 'XMLHttpRequest' in this
+    <p>Super Agent is light-weight progressive ajax API crafted for flexibility, readability, and a low learning curve after being frustrated with many of the existing request APIs.</p>
+    <a href='#' id='toggle'>Collapse All</a><div class="doc"><h1>noop()</h1><div class="contents"><p>Noop.</p><pre id="source">var noop = function(){};</pre></div></div><div class="doc"><h1>getXHR</h1><div class="contents"><p>Determine XHR.</p><pre id="source">var getXHR = 'XMLHttpRequest' in this
     ? function(){ return new XMLHttpRequest }
-    : function(){ return new ActiveXObject('Microsoft.XMLHTTP') };</pre></div></div><div class="doc"><h1>isFunction()</h1><div class="contents"><p>Check if <code>obj</code> is a function.</p><pre id="source">function isFunction(obj) {
-   return obj &amp;&amp; obj.call &amp;&amp; obj.apply;
-  }</pre></div></div><div class="doc"><h1>isObject()</h1><div class="contents"><p>Check if <code>obj</code> is an object.</p><pre id="source">function isObject(obj) {
+    : function(){ return new ActiveXObject('Microsoft.XMLHTTP') };</pre></div></div><div class="doc"><h1>isObject()</h1><div class="contents"><p>Check if <code>obj</code> is an object.</p><pre id="source">function isObject(obj) {
     var cons = obj.constructor;
     return cons &amp;&amp; 'Object' == cons.name;
+  }</pre></div></div><div class="doc"><h1>isFunction()</h1><div class="contents"><p>Check if <code>obj</code> is a function.</p><pre id="source">function isFunction(obj) {
+   return obj &amp;&amp; obj.call &amp;&amp; obj.apply;
   }</pre></div></div><div class="doc"><h1>serialize()</h1><div class="contents"><p>Serialize the given <code>obj</code>.</p><pre id="source">function serialize(obj) {
     if (!isObject(obj)) return obj;
     var pairs = [];
